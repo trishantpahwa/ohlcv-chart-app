@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import dynamic from 'next/dynamic';
 
 import { DateRangePicker } from '@/components';
@@ -9,11 +9,17 @@ interface HomeProps {
   data: any;
 }
 
-const Home: React.FC<HomeProps> = ({ symbol, data }) => {
+const Home: React.FC<HomeProps> = ({ }) => {
+
+  const [symbol, setSymbol] = useState("BTCUSDT");
+  const [interval, setInterval] = useState("1d");
+  const [startTime, setStartTime] = useState<Date>(new Date(new Date().setDate(new Date().getDate() - 30)));
+  const [endTime, setEndTime] = useState<Date>(new Date());
+
   return (
-    <div className="h-[100vh] w-[100vw] flex justift-center items-center">
-      <DateRangePicker />
-      <CandlestickChart symbol={"BTCUSDT"} interval="1d" />
+    <div className="h-[100vh] w-[100vw] flex items-center gap-100">
+      <DateRangePicker startTime={startTime} setStartTime={setStartTime} endTime={endTime} setEndTime={setEndTime} />
+      <CandlestickChart symbol={symbol} interval={interval} startTime={startTime} endTime={endTime} />
     </div>
   );
 };

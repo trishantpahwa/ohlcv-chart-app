@@ -10,8 +10,8 @@ import { OHLCVData } from '@/types/OHLCVData';
 interface CandlestickChartProps {
     symbol: string;
     interval: string;
-    startTime?: string;
-    endTime?: string;
+    startTime?: Date;
+    endTime?: Date;
 }
 
 const CandlestickChart: React.FC<CandlestickChartProps> = ({ symbol, interval, startTime, endTime }) => {
@@ -22,7 +22,7 @@ const CandlestickChart: React.FC<CandlestickChartProps> = ({ symbol, interval, s
     useEffect(() => {
         const fetchData = async () => {
             let url = `/api/chart?symbol=${symbol}&interval=${interval}`;
-            if (startTime && endTime) url += `&startTime=${startTime}&endTime=${endTime}`;
+            if (startTime && endTime) url += `&startTime=${startTime.getTime()}&endTime=${endTime.getTime()}`;
             const response = await fetch(url);
             const data = (await response.json()).map((entry: any) => ({
                 ...entry,
@@ -31,12 +31,12 @@ const CandlestickChart: React.FC<CandlestickChartProps> = ({ symbol, interval, s
             setOhlcvData(data);
         };
         fetchData();
-    }, [symbol]);
+    }, [symbol, interval, startTime, endTime]);
 
     // Set the chart to full screen
     useEffect(() => {
         const handleResize = () => {
-            setDimensions({ width: window.innerWidth * 0.8, height: window.innerHeight * 0.8 });
+            setDimensions({ width: window.innerWidth * 0.75, height: window.innerHeight * 0.9 });
         };
         handleResize();
         window.addEventListener('resize', handleResize);
@@ -49,7 +49,7 @@ const CandlestickChart: React.FC<CandlestickChartProps> = ({ symbol, interval, s
     const xExtents = [ohlcvData[0].date, ohlcvData[ohlcvData.length - 1].date];
 
     return (
-        <div>
+        <div className="p-4">
             <ChartCanvas
                 height={dimensions.height}
                 width={dimensions.width}
