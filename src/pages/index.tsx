@@ -19,9 +19,9 @@ const Home: React.FC<HomeProps> = ({ }) => {
   return (
     <div className="p-4 flex flex-col items-center">
       <h1 className="w-full text-3xl font-bold text-center mb-4">Candlestick Chart</h1>
-      <div className="flex flexg items-start justify-center w-full">
+      <div className="flex flex-col md:flex-row items-start justify-center w-full gap-10 md:gap-0">
         <div className="flex flex-col">
-          <div>
+          <div className="mb-10">
             <SymbolPicker symbol={symbol} setSymbol={setSymbol} />
           </div>
           <div>
