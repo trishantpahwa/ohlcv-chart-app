@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import dynamic from 'next/dynamic';
 
-import { DateRangePicker, SymbolPicker } from '@/components';
+import { DateRangePicker, IntervalPicker, SymbolPicker } from '@/components';
 const CandlestickChart = dynamic(() => import('@/components/CandleStickChart'), { ssr: false });
 
 interface HomeProps {
@@ -12,7 +12,7 @@ interface HomeProps {
 const Home: React.FC<HomeProps> = ({ }) => {
 
   const [symbol, setSymbol] = useState("BTCUSDT");
-  const [interval, setInterval] = useState("1d");
+  const [interval, setInterval] = useState("1m");
   const [startTime, setStartTime] = useState<Date>(new Date(new Date().setDate(new Date().getDate() - 30)));
   const [endTime, setEndTime] = useState<Date>(new Date());
 
@@ -23,6 +23,9 @@ const Home: React.FC<HomeProps> = ({ }) => {
         <div className="flex flex-col">
           <div>
             <SymbolPicker symbol={symbol} setSymbol={setSymbol} />
+          </div>
+          <div>
+            <IntervalPicker interval={interval} setInterval={setInterval} />
           </div>
           <div>
             <DateRangePicker startTime={startTime} setStartTime={setStartTime} endTime={endTime} setEndTime={setEndTime} />

@@ -52,7 +52,7 @@ async function fetchOHLCVData(
             volume: parseFloat(entry[5]),
         }));
     } catch (error) {
-        // console.error("Error fetching OHLCV data:", error.response);
+        console.error("Error fetching OHLCV data:", error);
         return [];
     }
 }
