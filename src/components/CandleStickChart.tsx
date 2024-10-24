@@ -5,20 +5,29 @@ import { ChartCanvas, Chart, CandlestickSeries, XAxis, YAxis, CrossHairCursor, M
 import { timeFormat } from 'd3-time-format';
 import { scaleTime } from 'd3-scale';
 import { format } from 'd3-format';
-import { fetchOHLCVData, OHLCVData } from '../utils/binanceApi';
+import { OHLCVData } from '@/types/OHLCVData';
 
 interface CandlestickChartProps {
     symbol: string;
+    interval: string;
+    startTime?: string;
+    endTime?: string;
 }
 
-const CandlestickChart: React.FC<CandlestickChartProps> = ({ symbol }) => {
+const CandlestickChart: React.FC<CandlestickChartProps> = ({ symbol, interval, startTime, endTime }) => {
     const [ohlcvData, setOhlcvData] = useState<OHLCVData[]>([]);
     const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
 
     // Fetch the OHLCV data
     useEffect(() => {
         const fetchData = async () => {
-            const data = await fetchOHLCVData(symbol);
+            let url = `/api/chart?symbol=${symbol}&interval=${interval}`;
+            if (startTime && endTime) url += `&startTime=${startTime}&endTime=${endTime}`;
+            const response = await fetch(url);
+            const data = (await response.json()).map((entry: any) => ({
+                ...entry,
+                date: new Date(entry.date),
+            }));
             setOhlcvData(data);
         };
         fetchData();
@@ -27,7 +36,7 @@ const CandlestickChart: React.FC<CandlestickChartProps> = ({ symbol }) => {
     // Set the chart to full screen
     useEffect(() => {
         const handleResize = () => {
-            setDimensions({ width: window.innerWidth * 0.9, height: window.innerHeight * 0.9 });
+            setDimensions({ width: window.innerWidth * 0.8, height: window.innerHeight * 0.8 });
         };
         handleResize();
         window.addEventListener('resize', handleResize);
@@ -40,7 +49,7 @@ const CandlestickChart: React.FC<CandlestickChartProps> = ({ symbol }) => {
     const xExtents = [ohlcvData[0].date, ohlcvData[ohlcvData.length - 1].date];
 
     return (
-        <div style={{ width: '100%', height: '100%' }}>
+        <div>
             <ChartCanvas
                 height={dimensions.height}
                 width={dimensions.width}
