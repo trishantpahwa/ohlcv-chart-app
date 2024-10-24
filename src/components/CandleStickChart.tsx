@@ -21,6 +21,7 @@ const CandlestickChart: React.FC<CandlestickChartProps> = ({ symbol, interval, s
     // Fetch the OHLCV data
     useEffect(() => {
         const fetchData = async () => {
+            if (!symbol) symbol = "BTCUSDT";
             let url = `/api/chart?symbol=${symbol}&interval=${interval}`;
             if (startTime && endTime) url += `&startTime=${startTime.getTime()}&endTime=${endTime.getTime()}`;
             const response = await fetch(url);
@@ -36,7 +37,7 @@ const CandlestickChart: React.FC<CandlestickChartProps> = ({ symbol, interval, s
     // Set the chart to full screen
     useEffect(() => {
         const handleResize = () => {
-            setDimensions({ width: window.innerWidth * 0.75, height: window.innerHeight * 0.9 });
+            setDimensions({ width: window.innerWidth * 0.75, height: window.innerHeight * 0.85 });
         };
         handleResize();
         window.addEventListener('resize', handleResize);

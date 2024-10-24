@@ -36,7 +36,6 @@ async function fetchOHLCVData(
             params.append("startTime", startTime);
             params.append("endTime", endTime);
         }
-        console.log(params);
         const result = await axios.get(
             `${process.env.NEXT_PUBLIC_BINANCE_API_URL}/klines`,
             {

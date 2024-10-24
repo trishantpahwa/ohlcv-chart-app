@@ -16,7 +16,6 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({ startTime, setStartTi
     }
     return (
         <div className="h-full w-full flex flex-col gap-4 p-4 bg-white rounded-lg m-10 p-4">
-            <h1 className="w-full text-lg font-semibold">Candlestick Chart</h1>
             <div className="flex flex-col mb-4">
                 <label className="mb-2 text-gray-700 font-semibold">
                     Start Time
