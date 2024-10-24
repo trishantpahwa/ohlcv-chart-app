@@ -39,6 +39,9 @@ async function fetchOHLCVData(
         const result = await axios.get(
             `${process.env.NEXT_PUBLIC_BINANCE_API_URL}/klines`,
             {
+                headers: {
+                    "X-MBX-APIKEY": process.env.NEXT_PUBLIC_BINANCE_API_KEY,
+                },
                 params,
             }
         );

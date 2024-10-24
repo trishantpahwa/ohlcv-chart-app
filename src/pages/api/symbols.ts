@@ -6,7 +6,12 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     try {
         // Fetch exchange information from Binance API
         const response = await axios.get(
-            `${process.env.NEXT_PUBLIC_BINANCE_API_URL}/exchangeInfo`
+            `${process.env.NEXT_PUBLIC_BINANCE_API_URL}/exchangeInfo`,
+            {
+                headers: {
+                    "X-MBX-APIKEY": process.env.NEXT_PUBLIC_BINANCE_API_KEY,
+                },
+            }
         );
         // Extract all symbols from the response
         const symbols = response.data.symbols.map(
