@@ -25,7 +25,7 @@ const CandlestickChart: React.FC<CandlestickChartProps> = ({ symbol, interval, s
             let url = `/api/chart?symbol=${symbol}&interval=${interval}`;
             if (startTime && endTime) url += `&startTime=${startTime.getTime()}&endTime=${endTime.getTime()}`;
             const response = await fetch(url);
-            const data = (await response.json()).map((entry: any) => ({
+            const data = (await response.json()).map((entry: OHLCVData) => ({
                 ...entry,
                 date: new Date(entry.date),
             }));

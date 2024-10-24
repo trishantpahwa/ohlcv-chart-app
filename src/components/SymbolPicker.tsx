@@ -10,7 +10,7 @@ const SymbolPicker: React.FC<SymbolPickerProps> = ({ symbol, setSymbol }) => {
 
     useEffect(() => {
         const fetchData = async () => {
-            let url = `/api/symbols`;
+            const url = `/api/symbols`;
             const response = await fetch(url);
             const data = await response.json();
             if (data) setSymbols(data.sort());

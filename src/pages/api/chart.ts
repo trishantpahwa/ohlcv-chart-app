@@ -29,7 +29,7 @@ async function fetchOHLCVData(
     endTime: string = ""
 ): Promise<OHLCVData[]> {
     try {
-        var params = new URLSearchParams();
+        const params = new URLSearchParams();
         params.append("symbol", symbol);
         params.append("interval", interval);
         if (startTime && endTime) {
@@ -43,14 +43,16 @@ async function fetchOHLCVData(
             }
         );
 
-        return result.data.map((entry: any) => ({
-            date: new Date(entry[0]),
-            open: parseFloat(entry[1]),
-            high: parseFloat(entry[2]),
-            low: parseFloat(entry[3]),
-            close: parseFloat(entry[4]),
-            volume: parseFloat(entry[5]),
-        }));
+        return result.data.map(
+            (entry: [number, string, string, string, string, string]) => ({
+                date: new Date(entry[0]),
+                open: parseFloat(entry[1]),
+                high: parseFloat(entry[2]),
+                low: parseFloat(entry[3]),
+                close: parseFloat(entry[4]),
+                volume: parseFloat(entry[5]),
+            })
+        );
     } catch (error) {
         console.error("Error fetching OHLCV data:", error);
         return [];
